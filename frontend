@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Contract Frontend</title>
+  </head>
+  <body>
+    <h1>Simple Contract Frontend</h1>
+    <div>
+      <label for="dataInput">New Data:</label>
+      <input type="number" id="dataInput" />
+      <button onclick="setData()">Set Data</button>
+    </div>
+    <div>
+      <button onclick="getData()">Get Data</button>
+      <p id="dataDisplay"></p>
+    </div>
+    <div>
+      <label for="multiplierInput">Multiplier:</label>
+      <input type="number" id="multiplierInput" />
+      <button onclick="multiplyData()">Multiply Data</button>
+    </div>
+
+    <script>
+      // Connect to the contract using web3.js or ethers.js
+      // Make sure you have a provider (e.g., MetaMask) injected
+
+      // Replace the contract address and ABI with your deployed contract values
+      const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+      const contractABI = [
+        // Contract ABI (generated from the Solidity contract)
+        // Include the ABI here
+      ];
+
+      // Create an instance of the contract
+      const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+      // Function to set new data
+      function setData() {
+        const newData = document.getElementById('dataInput').value;
+        contract.methods
+          .setData(newData)
+          .send({ from: web3.eth.defaultAccount })
+          .then(() => {
+            console.log('Data updated successfully.');
+          })
+          .catch((error) => {
+            console.error('Error updating data:', error);
+          });
+      }
+
+      // Function to get current data
+      function getData() {
+        contract.methods
+          .getData()
+          .call()
+          .then((result) => {
+            document.getElementById('dataDisplay').textContent = `Current Data: ${result}`;
+          })
+          .catch((error) => {
+            console.error('Error getting data:', error);
+          });
+      }
+
+      // Function to multiply data
+      function multiplyData() {
+        const multiplier = document.getElementById('multiplierInput').value;
+        contract.methods
+          .multiplyData(multiplier)
+          .send({ from: web3.eth.defaultAccount })
+          .then(() => {
+            console.log('Data multiplied successfully.');
+          })
+          .catch((error) => {
+            console.error('Error multiplying data:', error);
+          });
+      }
+    </script>
+  </body>
+</html>
